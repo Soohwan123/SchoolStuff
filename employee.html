@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modal Example</title>
+    <meta charset="utf-8" />
+    <link href="/lib/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <meta name="viewport" content="width=device=width, initial-scale=1">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand mx-3" href="#">Case#1</a>
+        <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nabarContent">
+            <ul class="navbar-nav mx-3">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/exercises/home.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/exercises/employee.html">Employee</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="card-body">
+        <button type="button" class="btn btn-outline-secondary m-2" data-bs-toggle="modal" data-bs-target="#employeeModal">
+            lookup employee
+        </button>
+    </div>
+
+    <div class="modal fade text-center" data-bs-backdrop="static" id="employeeModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Employee Info</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="text-align:left;">
+                    <div calss="row">
+                        <div class="col-2 ml-3" style="font-weight:bold;">Title:</div>
+                        <div id="titleLbl" class="col-2 text-left"></div>
+                        <div class="col-3 ml-3 text-left" style="font-weight:bold;">First:</div>
+                        <div id="firstLbl" class="col-4 text-left"></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-2 ml-3" style="font-weight:bold;">Phone:</div>
+                        <div id="phoneLbl" class="col-8 text-left"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 ml-3" style="font-weight:bold;">Last:</div>
+                        <div id="emailLbl" class="col-8 text-left"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 ml-3" style="font-weight:bold;">Email:</div>
+                        <div class="col-8">
+                            <input type="text" placeholder="enter last name" id="lastNameBox" class="form-control my-2" />
+                            <div id="status" class="text-left mt-3 mb-2"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <input type="button" value="Find Student" id="getBtn" />
+                    <div id="statusbl" class="text-left mt-3 mb-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/lib/js/jquery.min.js"></script>
+    <script src="/lib/js/bootstrap.min.js"></script>
+    <script src="/js/home.js"></script>
+</body>
+</html>
