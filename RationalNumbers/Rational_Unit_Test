@@ -1,0 +1,119 @@
+
+#include <gats/TestApp.hpp>
+#include "Rational.hpp"
+#include <sstream>
+#include <string>
+
+
+GATS_TEST_CASE(01_Rational_concept) {
+	/* Rational numbers are integers divided by another non-zero integer. */
+	const Rational half(1, 2), twoThirds(2, 3);
+
+	/*	a   c   a*c
+		- * - = ---
+		b   d   b*d
+	*/
+	auto result = half * twoThirds;
+
+	GATS_CHECK_EQUAL(result.numerator(), 1);
+	GATS_CHECK_EQUAL(result.denominator(), 3);
+}
+
+
+GATS_TEST_CASE(02a_default_constructor) {
+	Rational r;
+	
+	GATS_CHECK_EQUAL(r.numerator(), 0);
+	GATS_CHECK_EQUAL(r.denominator(), 1);
+}
+
+GATS_TEST_CASE(02b_integer_constructor) {
+	Rational zero(0);
+	GATS_CHECK_EQUAL(zero.numerator(), 0);
+	GATS_CHECK_EQUAL(zero.denominator(), 1);
+	Rational one(1);
+	GATS_CHECK_EQUAL(one.numerator(), 1);
+	GATS_CHECK_EQUAL(one.denominator(), 1);
+	Rational n(42);
+	GATS_CHECK_EQUAL(n.numerator(), 42);
+	GATS_CHECK_EQUAL(n.denominator(), 1);
+	Rational negn(-42);
+	GATS_CHECK_EQUAL(negn.numerator(), -42);
+	GATS_CHECK_EQUAL(negn.denominator(), 1);
+}
+
+GATS_TEST_CASE(02c_pair_constructor) {
+
+#define CHECK(inputN, inputD, outputN, outputD){\
+	Rational r((inputN),(inputD));\
+	GATS_CHECK_EQUAL(r.numerator(), (outputN));\
+	GATS_CHECK_EQUAL(r.denominator(), (outputD));\
+	}
+	CHECK(0, 1, 0, 1);
+	CHECK(1, 1, 1, 1);
+	CHECK(-1, 1, -1, 1);
+	CHECK(-6, 1, -6, 1);
+	CHECK(+6, 1, +6, 1);
+}
+
+
+GATS_TEST_CASE(02c_normalized_constructor) {
+
+#define CHECK(inputN, inputD, outputN, outputD){\
+	Rational r((inputN),(inputD));\
+	GATS_CHECK_EQUAL(r.numerator(), (outputN));\
+	GATS_CHECK_EQUAL(r.denominator(), (outputD));\
+	}
+	CHECK(4, 2, 2, 1);
+	CHECK(-4, 2, -2, 1);
+	CHECK(4, -2, -2, 1);
+	CHECK(-4, -2, 2, 1);
+
+	CHECK(60, 24, 5, 2);
+	CHECK(-60, 24, -5, 2);
+	CHECK(60, -24, -5, 2);
+	CHECK(-60, -24, 5, 2);
+}
+
+GATS_TEST_CASE(02d_failed_constructor) {
+	GATS_CHECK_THROW(Rational(1, 0), bad_rational);           // it catches -> pass or doesn't catch -> expection, not at all
+	GATS_CHECK_THROW(Rational(1, 0), std::bad_alloc);           // it catches -> pass or doesn't catch -> expection, not at all
+}
+
+GATS_TEST_CASE(03_ostream) {
+	using namespace std;
+	wostringstream oss;
+	oss << Rational(3, 4);
+	GATS_CHECK(oss.str() == L"3/4"s);
+	GATS_CHECK_EQUAL(oss.str(), L"3/4"s);
+}
+
+GATS_TEST_CASE(04_ostream) {
+	using namespace std;
+	wistringstream iss(L"3/4"s);
+	Rational r;
+	iss >> r;
+	GATS_CHECK_EQUAL(r.numerator(), 3);
+	GATS_CHECK_EQUAL(r.denominator(), 4);
+}
+
+GATS_TEST_CASE(05_arthmetic) {
+	Rational a{ 3,2 }, b{ 4,3 }, r;
+	r = a * b;
+	GATS_CHECK_EQUAL(r.numerator(), 2);
+	GATS_CHECK_EQUAL(r.denominator(), 1);
+	r = b * a;
+	GATS_CHECK_EQUAL(r.numerator(), 2);
+	GATS_CHECK_EQUAL(r.denominator(), 1);
+}
+GATS_TEST_CASE(06_relational) {
+	Rational a{ 4,3 }, b{ 5,2 };
+	
+	GATS_CHECK(a < b);
+	GATS_CHECK(a <= b);
+	GATS_CHECK(b > a);
+	GATS_CHECK(b >= a);
+
+	GATS_CHECK(!(a == b));
+	GATS_CHECK(a == a);
+}
